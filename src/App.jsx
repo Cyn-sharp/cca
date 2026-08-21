@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -7,11 +8,21 @@ import Contact from "./sections/Contact";
 import Footer from "./components/Footer";
 
 function App() {
+  const [isShaking, setIsShaking] = useState(false);
+
+  const triggerShake = () => {
+    // restart animation even if already shaking
+    setIsShaking(false);
+    requestAnimationFrame(() => setIsShaking(true));
+    // remove class after animation ends
+    setTimeout(() => setIsShaking(false), 550);
+  };
+
   return (
-    <div className="bg-background min-h-screen">
+    <div className={`bg-background min-h-screen ${isShaking ? "site-shake" : ""}`}>
       <Navbar />
       <main>
-        <Hero />
+        <Hero onCoolHover={triggerShake} />
         <About />
         <TechStack />
         <Projects />

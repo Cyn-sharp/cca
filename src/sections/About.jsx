@@ -6,7 +6,7 @@ import { FiMaximize2 } from "react-icons/fi";
 
 const facts = [
   { label: "Role",     value: "Full Stack Developer" },
-  { label: "Status",   value: "Student 🎓"           },
+  { label: "Status",   value: "Computer Engineering Student"           },
   { label: "Focus",    value: "Building Real World Applications" },
   { label: "Learning", value: "Always 📚"             },
 ];

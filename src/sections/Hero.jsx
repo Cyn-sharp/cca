@@ -1,21 +1,40 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { portfolioData } from "../data/portfolioData";
 import { FiGithub, FiMail, FiArrowDown } from "react-icons/fi";
 import Typewriter from "../components/Typewriter";
 
 const roles = [
-  "Full Stack Developer",
-  "Student",
+  "Aspiring Full Stack Developer",
+  "Computer Engineering Student",
   "Hardworking",
   "Willing to Learn",
   "Problem Solver",
-  "Coffee Powered ☕",
+  "Coffee Powered",
 ];
 
-export default function Hero() {
+export default function Hero({ onCoolHover }) {
   const { name, bio, github, email, photos } = portfolioData;
   const [hovered, setHovered] = useState(false);
+  const audioRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    setHovered(true);
+    onCoolHover?.();
+
+    // Play FAAHHH sound
+    try {
+      if (!audioRef.current) {
+        audioRef.current = new Audio("/fahhh.mp3");
+      }
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch((err) => {
+        console.log("Audio play prevented by browser:", err);
+      });
+    } catch (e) {
+      console.log("Audio error", e);
+    }
+  };
 
   return (
     <section
@@ -37,7 +56,7 @@ export default function Hero() {
             className="flex justify-center lg:justify-start order-2 lg:order-1"
           >
             <div
-              onMouseEnter={() => setHovered(true)}
+              onMouseEnter={handleMouseEnter}
               onMouseLeave={() => setHovered(false)}
               className="relative group cursor-pointer"
             >
@@ -62,7 +81,7 @@ export default function Hero() {
                 {/* Cool photo (with shades) */}
                 <motion.img
                   src={photos.cool}
-                  alt="Cyndrick — cool mode 😎"
+                  alt="Cyndrick — cool mode"
                   animate={{
                     opacity: hovered ? 1 : 0,
                     scale:   hovered ? 1 : 1.1,
@@ -80,7 +99,7 @@ export default function Hero() {
                 }}
                 className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-2 rounded-full bg-background border border-primary/40 text-primary text-xs font-mono shadow-lg"
               >
-                👆 hover me
+               hover me
               </motion.div>
 
               {/* Cool mode badge */}
@@ -93,7 +112,7 @@ export default function Hero() {
                 transition={{ duration: 0.5 }}
                 className="absolute -top-2 -right-2 px-4 py-2 rounded-full bg-accent text-background text-xs font-black shadow-lg"
               >
-                😎 COOL MODE
+               COOL MODE
               </motion.div>
             </div>
           </motion.div>
