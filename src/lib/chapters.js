@@ -1,9 +1,9 @@
-// The five chapters of the console — shared by the HUD and any nav that
-// needs to know where each section lives.
+// The six chapters of the open beta — shared by the HUD and the menu.
 export const CHAPTERS = [
-  { id: "home",     page: "001", name: "IDENTITY", href: "#home"     },
-  { id: "about",    page: "002", name: "PROFILE",  href: "#about"    },
-  { id: "stack",    page: "003", name: "TOOLKIT",  href: "#stack"    },
-  { id: "projects", page: "004", name: "WORK",     href: "#projects" },
-  { id: "contact",  page: "005", name: "CONTACT",  href: "#contact"  },
+  { id: "home",    page: "001", name: "INTRO",   href: "#home"    },
+  { id: "build",   page: "002", name: "BUILD",   href: "#build"   },
+  { id: "work",    page: "003", name: "WORK",    href: "#work"    },
+  { id: "about",   page: "004", name: "ABOUT",   href: "#about"   },
+  { id: "log",     page: "005", name: "LOG",     href: "#log"     },
+  { id: "contact", page: "006", name: "CONTACT", href: "#contact" },
 ];

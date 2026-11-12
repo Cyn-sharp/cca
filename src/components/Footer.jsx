@@ -12,7 +12,7 @@ export default function Footer() {
         <p className="min-w-0 truncate">
           © {year} <span className="text-paper/80">{name.toUpperCase()}</span>
         </p>
-        <p className="hidden md:block">BUILT WITH REACT + VITE</p>
+        <p className="hidden md:block">V0.9 — OPEN BETA</p>
         <div className="flex shrink-0 items-center gap-1">
           <a
             href={github}
@@ -31,7 +31,7 @@ export default function Footer() {
             <FiMail size={17} />
           </a>
         </div>
-        <p className="hidden sm:block text-paper/30">CCA://EOF</p>
+        <p className="hidden sm:block text-paper/30">EOF, FOR NOW</p>
       </div>
 
       {/* The wordmark, printed at the bottom of the manual */}

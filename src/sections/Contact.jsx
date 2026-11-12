@@ -21,13 +21,13 @@ export default function Contact() {
     <section id="contact" className="relative z-10 px-4 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <ModuleHeading
-          chapter="005"
+          chapter="006"
           label="CONTACT"
-          code="CCA://SSH_CONTACT"
-          title="INITIATE CONTACT"
+          code="CCA://START_BUILD"
+          title="START A BUILD"
         >
           Open to internships, collaborations, and good conversations about
-          tech. My inbox doesn't bite.
+          tech. My inbox doesn't bite — ping it.
         </ModuleHeading>
 
         <div className="mt-14 grid items-start gap-8 lg:grid-cols-12 lg:gap-14">
