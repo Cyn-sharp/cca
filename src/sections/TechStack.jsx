@@ -1,11 +1,5 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
-import { portfolioData } from "../data/portfolioData";
-import SectionHeading from "../components/SectionHeading";
-import VelocityMarquee from "../components/VelocityMarquee";
-import Reveal from "../components/Reveal";
-import { useFinePointer } from "../hooks/useMediaQuery";
-import { SPRING_SCROLL } from "../lib/motion";
 import {
   SiReact,
   SiJavascript,
@@ -14,48 +8,47 @@ import {
   SiMysql,
   SiFigma,
 } from "react-icons/si";
+import { portfolioData } from "../data/portfolioData";
+import ModuleHeading from "../components/ModuleHeading";
+import VelocityMarquee from "../components/VelocityMarquee";
+import { useFinePointer } from "../hooks/useMediaQuery";
+import { SPRING_SCROLL } from "../lib/motion";
 
+// Core stack — shown as a datasheet table, not cards
 const stack = [
-  { name: "React",      type: "icon", Icon: SiReact,      color: "#61DAFB" },
-  { name: "JavaScript", type: "icon", Icon: SiJavascript, color: "#F7DF1E" },
-  { name: "C#",         type: "text", label: "C#",        color: "#9B59B6" },
-  { name: "Python",     type: "icon", Icon: SiPython,     color: "#3776AB" },
-  { name: "C",          type: "text", label: "C",         color: "#A8B9CC" },
-  { name: "Supabase",   type: "icon", Icon: SiSupabase,   color: "#3ECF8E" },
-  { name: "MySQL",      type: "icon", Icon: SiMysql,      color: "#4479A1" },
-  { name: "Figma",      type: "icon", Icon: SiFigma,      color: "#F24E1E" },
+  { name: "React",      kind: "FRAMEWORK", type: "icon", Icon: SiReact,      color: "#61DAFB" },
+  { name: "JavaScript", kind: "LANGUAGE",  type: "icon", Icon: SiJavascript, color: "#F7DF1E" },
+  { name: "Python",     kind: "LANGUAGE",  type: "icon", Icon: SiPython,     color: "#3776AB" },
+  { name: "C#",         kind: "LANGUAGE",  type: "text", label: "C#",        color: "#9B59B6" },
+  { name: "C",          kind: "LANGUAGE",  type: "text", label: "C",         color: "#A8B9CC" },
+  { name: "Supabase",   kind: "BACKEND",   type: "icon", Icon: SiSupabase,   color: "#3ECF8E" },
+  { name: "MySQL",      kind: "DATABASE",  type: "icon", Icon: SiMysql,      color: "#4479A1" },
+  { name: "Figma",      kind: "DESIGN",    type: "icon", Icon: SiFigma,      color: "#F24E1E" },
 ];
 
-// Single tech item for marquee
 const TechItem = ({ tech }) => (
-  <div className="flex items-center gap-3 px-6 py-5 whitespace-nowrap sm:px-8">
+  <div className="flex items-center gap-3 px-7 py-4 whitespace-nowrap sm:px-9">
     {tech.type === "icon" ? (
-      <>
-        <tech.Icon size={32} style={{ color: tech.color }} aria-hidden="true" />
-        <span className="font-display text-2xl font-bold text-textWhite/85 sm:text-3xl">
-          {tech.name}
-        </span>
-      </>
+      <tech.Icon size={26} style={{ color: tech.color }} aria-hidden="true" />
     ) : (
-      // C and C# have no logo icon — their name is the mark
-      <span
-        style={{ color: tech.color }}
-        className="font-display text-2xl font-extrabold sm:text-3xl"
-      >
+      <span style={{ color: tech.color }} className="font-display text-xl font-extrabold sm:text-2xl">
         {tech.label}
       </span>
     )}
-    <span aria-hidden="true" className="ml-8 h-1.5 w-1.5 rotate-45 bg-primary/50 sm:ml-12" />
+    {tech.type !== "text" && (
+      <span className="font-display text-xl font-bold text-paper/80 sm:text-2xl">{tech.name}</span>
+    )}
+    <span aria-hidden="true" className="ml-7 font-mono text-accent/60 sm:ml-9">+</span>
   </div>
 );
 
-// Deterministic "random" number 0–1 for a pill, so the scatter is the same every render
+// Deterministic pseudo-random 0–1 so the scatter is identical every render
 const scatter = (index, salt) => {
   const n = Math.sin(index * 12.9898 + salt * 78.233) * 43758.5453;
   return n - Math.floor(n);
 };
 
-// A pill that starts scattered and snaps into the grid as you scroll to it
+// A pill that starts scattered and snaps into formation on scroll
 function ExploredPill({ tech, index, progress, animated }) {
   const fromX      = (scatter(index, 1) - 0.5) * 260;
   const fromY      = 50 + scatter(index, 2) * 130;
@@ -68,16 +61,9 @@ function ExploredPill({ tech, index, progress, animated }) {
 
   return (
     <motion.li style={{ x, y, rotate, opacity }}>
-      <motion.span
-        whileHover={{
-          scale: 1.1,
-          backgroundColor: "rgba(6, 182, 212, 0.15)",
-          borderColor: "rgba(6, 182, 212, 0.6)",
-        }}
-        className="block px-4 py-2 rounded-full border border-textWhite/15 bg-surface text-textWhite/75 text-sm font-medium cursor-default"
-      >
+      <span className="block border border-paper/15 bg-panel px-3 py-1.5 font-mono text-[11px] tracking-wide text-paper/70 transition-colors duration-200 hover:border-accent/60 hover:text-accent">
         {tech}
-      </motion.span>
+      </span>
     </motion.li>
   );
 }
@@ -95,47 +81,66 @@ export default function TechStack() {
   const assemble = useSpring(scrollYProgress, SPRING_SCROLL);
 
   return (
-    <section id="stack" className="relative z-10 overflow-x-clip pb-24 pt-8">
-
-      {/* ── TOP — Core Tech Stack ──────────────────── */}
-      <div className="mx-auto mb-14 max-w-6xl px-6">
-        <SectionHeading index="02" label="tech stack" title="What I work with">
-          The tools I use to bring ideas to life ⚡
-          <span className="mt-1 block font-mono text-xs text-primary/70">
-            {finePointer
-              ? "(scroll to speed it up · hover to pause)"
-              : "(scroll to speed it up)"}
+    <section id="stack" className="relative z-10 overflow-x-clip py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <ModuleHeading
+          chapter="003"
+          label="TOOLKIT"
+          code="CCA://LS_TOOLKIT"
+          title="THE TOOLKIT"
+        >
+          The daily drivers.
+          <span className="mt-2 block font-mono text-[10px] tracking-[0.25em] text-accent/70">
+            {finePointer ? "SCROLL TO SPEED THE TAPE UP — HOVER TO PAUSE" : "SCROLL TO SPEED THE TAPE UP"}
           </span>
-        </SectionHeading>
+        </ModuleHeading>
       </div>
 
-      {/* Marquee row — reacts to scroll speed, pauses on hover */}
-      <Reveal y={0} amount={0.2}>
-        <VelocityMarquee className="mask-fade-x border-y border-primary/20 bg-primary/5 py-1">
-          {stack.map((tech) => (
-            <TechItem key={tech.name} tech={tech} />
+      {/* Scroll-velocity tape */}
+      <VelocityMarquee className="mask-fade-x mt-10 border-y border-paper/10 bg-accent/[0.04] py-1">
+        {stack.map((tech) => (
+          <TechItem key={tech.name} tech={tech} />
+        ))}
+      </VelocityMarquee>
+
+      {/* Core stack — datasheet grid */}
+      <div className="mx-auto mt-14 max-w-6xl px-4 sm:px-6">
+        <div className="grid grid-cols-2 border border-paper/10 sm:grid-cols-4">
+          {stack.map((tech, i) => (
+            <div
+              key={tech.name}
+              className="group border-b border-r border-paper/10 p-4 transition-colors duration-300 odd:border-l-0 hover:bg-accent/[0.05] sm:p-5 [&:nth-child(2n)]:border-r-0 sm:[&:nth-child(2n)]:border-r sm:[&:nth-child(4n)]:border-r-0"
+            >
+              <p className="flex items-baseline justify-between font-mono text-[9px] tracking-[0.3em] text-muted/70">
+                {String(i + 1).padStart(2, "0")}
+                <span className="text-accent/60">{tech.kind}</span>
+              </p>
+              <p className="mt-4 flex items-center gap-2.5">
+                {tech.type === "icon" ? (
+                  <tech.Icon size={22} style={{ color: tech.color }} aria-hidden="true" />
+                ) : (
+                  <span style={{ color: tech.color }} className="font-display text-lg font-extrabold transition-colors duration-300 group-hover:text-paper sm:text-xl">
+                    {tech.label}
+                  </span>
+                )}
+                {tech.type !== "text" && (
+                  <span className="font-display text-lg font-bold leading-tight text-paper transition-colors duration-300 group-hover:text-accent sm:text-xl">
+                    {tech.name}
+                  </span>
+                )}
+              </p>
+            </div>
           ))}
-        </VelocityMarquee>
-      </Reveal>
+        </div>
+      </div>
 
-      {/* ── BOTTOM — Also Explored ──────────────────── */}
-      <div className="mx-auto mt-28 max-w-5xl px-6 md:mt-36">
-        <SectionHeading
-          as="h3"
-          size="md"
-          label="also explored"
-          labelClass="text-accent"
-          title="Tried & explored"
-          markClass="text-primary"
-        >
-          <span className="mx-auto block max-w-xl">
-            Not mastered (yet 😅) — but I've experimented with these and I'm
-            always open to learning more.
-          </span>
-        </SectionHeading>
-
-        {/* Pills grid */}
-        <ul ref={pillsRef} className="mt-12 flex flex-wrap justify-center gap-3">
+      {/* Also explored — scatter-assemble pills */}
+      <div className="mx-auto mt-16 max-w-5xl px-4 sm:px-6 md:mt-20">
+        <div className="flex items-baseline justify-between gap-4 border-t border-paper/10 pt-4 font-mono text-[10px] tracking-[0.3em] text-muted">
+          <p><span className="text-signal/80">ALSO_EXPLORED</span> / NOT MASTERED YET</p>
+          <p className="hidden text-paper/30 sm:block">{exploredTech.length} ENTRIES</p>
+        </div>
+        <ul ref={pillsRef} className="mt-8 flex flex-wrap justify-center gap-2.5">
           {exploredTech.map((tech, i) => (
             <ExploredPill
               key={tech}
@@ -146,17 +151,9 @@ export default function TechStack() {
             />
           ))}
         </ul>
-
-        {/* Bottom note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="text-center mt-12 text-textWhite/40 font-mono text-xs"
-        >
-          + always learning more 🚀
-        </motion.p>
+        <p className="mt-10 text-center font-mono text-[10px] tracking-[0.35em] text-muted/60">
+          + MORE LOADING CONTINUOUSLY
+        </p>
       </div>
     </section>
   );

@@ -92,7 +92,7 @@ export default function ImageCarousel({
               type="button"
               onClick={() => step(-1)}
               aria-label="Previous image"
-              className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-background/70 backdrop-blur-sm border border-primary/30 text-primary flex items-center justify-center lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-background transition-all duration-300"
+              className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-background/70 backdrop-blur-sm border border-accent/30 text-accent flex items-center justify-center lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100 hover:bg-accent hover:text-background transition-all duration-300"
             >
               <FiChevronLeft size={18} />
             </button>
@@ -101,7 +101,7 @@ export default function ImageCarousel({
               type="button"
               onClick={() => step(1)}
               aria-label="Next image"
-              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-background/70 backdrop-blur-sm border border-primary/30 text-primary flex items-center justify-center lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-background transition-all duration-300"
+              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-background/70 backdrop-blur-sm border border-accent/30 text-accent flex items-center justify-center lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100 hover:bg-accent hover:text-background transition-all duration-300"
             >
               <FiChevronRight size={18} />
             </button>
@@ -110,7 +110,7 @@ export default function ImageCarousel({
 
         {/* Image counter */}
         {total > 1 && (
-          <div className="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-background/70 backdrop-blur-sm border border-primary/20 text-xs font-mono text-textWhite/70 pointer-events-none">
+          <div className="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-background/70 backdrop-blur-sm border border-accent/20 text-xs font-mono text-paper/70 pointer-events-none">
             {current + 1} / {total}
           </div>
         )}
@@ -131,8 +131,8 @@ export default function ImageCarousel({
               <span
                 className={`block h-2 rounded-full transition-all duration-300 ${
                   current === idx
-                    ? "w-8 bg-primary glow-box"
-                    : "w-2 bg-primary/30 hover:bg-primary/60"
+                    ? "w-8 bg-accent glow-box"
+                    : "w-2 bg-accent/30 hover:bg-accent/60"
                 }`}
               />
             </button>

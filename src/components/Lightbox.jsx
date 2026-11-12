@@ -86,14 +86,14 @@ export default function Lightbox({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 rounded-full bg-background/80 border border-primary/30 text-primary flex items-center justify-center hover:bg-primary hover:text-background transition-all duration-300 z-10"
+            className="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 rounded-full bg-background/80 border border-accent/30 text-accent flex items-center justify-center hover:bg-accent hover:text-background transition-all duration-300 z-10"
           >
             <FiX size={24} />
           </button>
 
           {/* Counter */}
           {hasMultiple && (
-            <div className="absolute top-4 left-4 md:top-6 md:left-6 px-4 py-2 rounded-full bg-background/80 border border-primary/20 text-textWhite/80 text-sm font-mono z-10">
+            <div className="absolute top-4 left-4 md:top-6 md:left-6 px-4 py-2 rounded-full bg-background/80 border border-accent/20 text-paper/80 text-sm font-mono z-10">
               {currentIndex + 1} / {images.length}
             </div>
           )}
@@ -104,7 +104,7 @@ export default function Lightbox({
               type="button"
               onClick={(e) => { e.stopPropagation(); onPrev(); }}
               aria-label="Previous photo"
-              className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-background/80 border border-primary/30 text-primary flex items-center justify-center hover:bg-primary hover:text-background transition-all duration-300 z-10"
+              className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-background/80 border border-accent/30 text-accent flex items-center justify-center hover:bg-accent hover:text-background transition-all duration-300 z-10"
             >
               <FiChevronLeft size={24} />
             </button>
@@ -116,7 +116,7 @@ export default function Lightbox({
               type="button"
               onClick={(e) => { e.stopPropagation(); onNext(); }}
               aria-label="Next photo"
-              className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-background/80 border border-primary/30 text-primary flex items-center justify-center hover:bg-primary hover:text-background transition-all duration-300 z-10"
+              className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-background/80 border border-accent/30 text-accent flex items-center justify-center hover:bg-accent hover:text-background transition-all duration-300 z-10"
             >
               <FiChevronRight size={24} />
             </button>
@@ -153,7 +153,7 @@ export default function Lightbox({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 }}
-                  className="mt-4 text-textWhite/80 text-center text-sm md:text-base font-medium px-4"
+                  className="mt-4 text-paper/80 text-center text-sm md:text-base font-medium px-4"
                 >
                   {image.caption}
                 </motion.figcaption>

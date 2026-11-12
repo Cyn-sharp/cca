@@ -1,24 +1,21 @@
 import { useState } from "react";
 import { MotionConfig } from "framer-motion";
-import Navbar from "./components/Navbar";
-import Background from "./components/Background";
-import SectionBridge from "./components/SectionBridge";
-import BackToTop from "./components/BackToTop";
+import BootLoader from "./components/BootLoader";
+import Hud from "./components/Hud";
+import Footer from "./components/Footer";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
 import TechStack from "./sections/TechStack";
-import Projects from "./sections/Projects";
+import DiscLibrary from "./sections/DiscLibrary";
 import Contact from "./sections/Contact";
-import Footer from "./components/Footer";
 
 function App() {
   const [isShaking, setIsShaking] = useState(false);
 
   const triggerShake = () => {
-    // restart animation even if already shaking
+    // restart the animation even if it's already running
     setIsShaking(false);
     requestAnimationFrame(() => setIsShaking(true));
-    // remove class after animation ends
     setTimeout(() => setIsShaking(false), 550);
   };
 
@@ -27,31 +24,29 @@ function App() {
     // system settings get fades instead of movement.
     <MotionConfig reducedMotion="user">
       <a
-        href="#about"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:font-semibold focus:text-background"
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-14 focus:z-[95] focus:border focus:border-accent focus:bg-void focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:text-accent"
       >
         Skip to content
       </a>
 
-      <Background />
-      <Navbar />
+      {/* Blueprint grid behind everything */}
+      <div aria-hidden="true" className="bg-blueprint pointer-events-none fixed inset-0 z-0" />
 
-      <div className={`relative min-h-screen ${isShaking ? "site-shake" : ""}`}>
-        <main>
+      <div className={`relative ${isShaking ? "site-shake" : ""}`}>
+        <Hud />
+        <main id="main-content">
           <Hero onCoolHover={triggerShake} />
-          <SectionBridge variant="left" />
           <About />
-          <SectionBridge variant="right" />
           <TechStack />
-          <SectionBridge variant="left" />
-          <Projects />
-          <SectionBridge variant="right" />
+          <DiscLibrary />
           <Contact />
         </main>
         <Footer />
       </div>
 
-      <BackToTop />
+      {/* The console boot sequence — plays once per tab */}
+      <BootLoader />
     </MotionConfig>
   );
 }

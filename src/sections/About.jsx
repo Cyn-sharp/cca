@@ -1,24 +1,23 @@
 import { useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { FiMaximize2 } from "react-icons/fi";
 import { portfolioData } from "../data/portfolioData";
 import Lightbox from "../components/Lightbox";
-import SectionHeading from "../components/SectionHeading";
+import ModuleHeading from "../components/ModuleHeading";
 import ScrubText from "../components/ScrubText";
-import Reveal from "../components/Reveal";
-import Spotlight from "../components/Spotlight";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { EASE_OUT } from "../lib/motion";
-import { FiMaximize2 } from "react-icons/fi";
 
-const facts = [
-  { label: "Role",     value: "Full Stack Developer" },
-  { label: "Status",   value: "Computer Engineering Student"           },
-  { label: "Focus",    value: "Building Real World Applications" },
-  { label: "Learning", value: "Always 📚"             },
+// The datasheet rows — everything a company wants to know at a glance
+const specRows = [
+  { label: "ROLE",     value: "Full Stack Developer", note: "frontend × backend" },
+  { label: "STATUS",   value: "Computer Engineering Student", note: "currently enrolled" },
+  { label: "FOCUS",    value: "Real-world applications", note: "ship it, then learn" },
+  { label: "BASE",     value: "Cebu City, Philippines", note: "remote-friendly" },
+  { label: "LEARNING", value: "Always", note: "full stack is the playground" },
 ];
 
-// How far (px) each gallery photo drifts while the gallery crosses the screen.
-// Different amounts per photo = depth.
+// How far (px) each gallery photo drifts while the gallery crosses the screen
 const DRIFT = [46, -28, 64];
 
 function GalleryPhoto({ image, index, progress, drift, onOpen }) {
@@ -27,49 +26,38 @@ function GalleryPhoto({ image, index, progress, drift, onOpen }) {
   const ratio = image.width && image.height ? image.width / image.height : 3 / 4;
 
   return (
-    <motion.div
-      style={{ y, "--ratio": ratio }}
-      className="min-w-0 md:[flex:var(--ratio)_1_0%]"
-    >
+    <motion.div style={{ y, "--ratio": ratio }} className="min-w-0 md:[flex:var(--ratio)_1_0%]">
       <motion.button
         type="button"
         onClick={onOpen}
         aria-label={`View photo: ${image.caption}`}
-        initial={{ opacity: 0, clipPath: "inset(14% 8% 14% 8% round 1rem)" }}
-        whileInView={{ opacity: 1, clipPath: "inset(0% 0% 0% 0% round 1rem)" }}
+        initial={{ opacity: 0, clipPath: "inset(14% 8% 14% 8%)" }}
+        whileInView={{ opacity: 1, clipPath: "inset(0% 0% 0% 0%)" }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.9, delay: index * 0.12, ease: EASE_OUT }}
         style={{ aspectRatio: ratio }}
-        className="group relative block w-full cursor-zoom-in overflow-hidden rounded-2xl border border-textWhite/10 bg-surface text-left"
+        className="group relative block w-full cursor-zoom-in overflow-hidden border border-paper/10 bg-panel text-left"
       >
-        {/* Image — drifts inside its frame as you scroll */}
         <motion.img
           src={image.src}
           alt={image.caption}
           loading="lazy"
           decoding="async"
           style={{ y: imageY, scale: 1.14 }}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover grayscale-[35%] transition-all duration-700 group-hover:grayscale-0"
         />
-
-        {/* Overlay */}
-        <span className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
-
-        {/* Zoom icon — appears on hover */}
-        <span className="absolute left-3 top-3 flex h-10 w-10 scale-75 items-center justify-center rounded-full bg-primary/90 text-background opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
-          <FiMaximize2 size={16} />
+        <span className="absolute inset-0 bg-gradient-to-t from-void via-void/25 to-transparent" />
+        <span className="absolute left-3 top-3 flex h-9 w-9 scale-75 items-center justify-center rounded-full border border-accent/50 bg-void/70 text-accent opacity-0 backdrop-blur transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+          <FiMaximize2 size={15} />
         </span>
-
-        {/* Caption */}
-        <span className="absolute bottom-0 left-0 right-0 block translate-y-1 p-5 transition-transform duration-300 group-hover:translate-y-0">
-          <span className="mb-1 block font-mono text-xs text-accent">0{index + 1}</span>
-          <span className="block text-sm font-semibold leading-snug text-textWhite line-clamp-2">
+        <span className="absolute bottom-0 left-0 right-0 block p-4">
+          <span className="mb-1 block font-mono text-[10px] tracking-[0.3em] text-accent">
+            FIELD_{String(index + 1).padStart(2, "0")}
+          </span>
+          <span className="block text-sm font-semibold leading-snug text-paper">
             {image.caption}
           </span>
         </span>
-
-        {/* Corner accent */}
-        <span className="absolute right-3 top-3 h-8 w-8 rounded-tr-lg border-r-2 border-t-2 border-primary/40 transition-colors duration-300 group-hover:border-primary" />
       </motion.button>
     </motion.div>
   );
@@ -93,60 +81,69 @@ export default function About() {
   const prevImage     = ()  => setLightboxIndex((i) => (i - 1 + aboutImages.length) % aboutImages.length);
 
   return (
-    <section id="about" className="relative z-10 overflow-x-clip px-6 pb-24 pt-8">
+    <section id="about" className="relative z-10 px-4 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading index="01" label="about me" title="Who am I" mark="?" />
+        <ModuleHeading
+          chapter="002"
+          label="PROFILE"
+          code="CCA://WHOAMI"
+          title="WHOAMI"
+        >
+          A Computer Engineering student who treats shipping real projects as the best way to learn.
+        </ModuleHeading>
 
-        {/* Bio — lights up word by word as you scroll */}
+        {/* Bio — lights up as you scroll through it */}
         <ScrubText
           text={bio}
           highlight={["Cyndrick", "Full", "Stack"]}
-          className="mx-auto mt-14 max-w-4xl text-center font-display text-2xl font-semibold leading-[1.25] tracking-[-0.015em] sm:text-3xl md:mt-20 md:text-[2.6rem] md:leading-[1.18]"
+          className="mt-14 max-w-4xl font-display text-2xl font-semibold leading-[1.25] tracking-[-0.015em] sm:text-3xl md:text-[2.5rem] md:leading-[1.18]"
         />
 
-        {/* Text + Facts */}
-        <div className="mt-16 grid items-center gap-10 md:mt-24 md:grid-cols-2 md:gap-14">
-          <Reveal>
-            <p className="text-base leading-relaxed text-textWhite/60 md:text-lg">
-              I'm currently a student exploring the world of full stack development.
-              I enjoy working on both the frontend and backend — from designing UI
-              in Figma to building APIs and connecting databases. Every project I
+        {/* Datasheet + note */}
+        <div className="mt-16 grid gap-10 md:grid-cols-12 md:gap-14">
+          <div className="md:col-span-7">
+            <dl>
+              {specRows.map((row) => (
+                <div
+                  key={row.label}
+                  className="row-hover group grid grid-cols-[auto_1fr] items-baseline gap-x-6 border-b border-paper/[0.08] py-4 sm:grid-cols-[7.5rem_1fr]"
+                >
+                  <dt className="font-mono text-[10px] tracking-[0.3em] text-accent/80">
+                    {row.label}
+                  </dt>
+                  <dd>
+                    <span className="block text-base font-semibold text-paper">{row.value}</span>
+                    <span className="mt-0.5 block font-mono text-[9px] tracking-[0.18em] text-muted/70">
+                      {row.note.toUpperCase()}
+                    </span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="flex flex-col justify-end md:col-span-5">
+            <p className="max-w-sm text-[15px] leading-relaxed text-muted">
+              I enjoy working on both sides of the stack — from designing UI in
+              Figma to building APIs and connecting databases. Every project I
               build teaches me something new.
             </p>
-          </Reveal>
-
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            {facts.map((fact, i) => (
-              <motion.div
-                key={fact.label}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ delay: i * 0.08, duration: 0.6, ease: EASE_OUT }}
-              >
-                <Spotlight className="card h-full rounded-2xl p-5">
-                  <p className="mb-1.5 font-mono text-xs text-primary">{fact.label}</p>
-                  <p className="text-sm font-bold text-textWhite">{fact.value}</p>
-                </Spotlight>
-              </motion.div>
-            ))}
+            <p className="mt-6 border-l-2 border-accent/50 pl-4 font-mono text-[10px] leading-relaxed tracking-[0.15em] text-paper/40">
+              NOTE: THIS ENGINEER SHIPS FIRST,
+              <br />ASKS QUESTIONS SECOND,
+              <br />AND LEARNS EVERY TIME.
+            </p>
           </div>
         </div>
 
-        {/* Photo Gallery */}
-        <div className="mt-28 md:mt-36">
-          <SectionHeading
-            as="h3"
-            size="md"
-            label="life as a student"
-            title="Behind the code"
-          >
-            Click any photo to view full-size 🔍
-          </SectionHeading>
-
+        {/* Field photos */}
+        <div className="mt-20 md:mt-24">
+          <div className="flex items-baseline justify-between gap-4 border-t border-paper/10 pt-4 font-mono text-[10px] tracking-[0.3em] text-muted sm:text-[11px]">
+            <p><span className="text-accent">FIELD_LOG</span> / BEHIND THE CODE</p>
+            <p className="hidden text-paper/30 sm:block">{sideBySide ? "HOVER / CLICK TO ENLARGE" : "TAP TO ENLARGE"}</p>
+          </div>
           <div
             ref={galleryRef}
-            className="mt-12 flex flex-col gap-5 md:mt-20 md:flex-row md:gap-6"
+            className="mt-8 flex flex-col gap-4 md:flex-row md:gap-5"
           >
             {aboutImages.map((image, i) => (
               <GalleryPhoto
@@ -162,7 +159,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
       <Lightbox
         images={aboutImages}
         currentIndex={lightboxIndex}

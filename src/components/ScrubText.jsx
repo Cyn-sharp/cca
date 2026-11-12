@@ -26,7 +26,7 @@ export default function ScrubText({ text, className = "", highlight = [] }) {
   return (
     <p ref={ref} className={className}>
       {words.map((w, i) => {
-        const cls = isHighlighted(w) ? "text-primary" : undefined;
+        const cls = isHighlighted(w) ? "text-accent" : undefined;
         if (reduceMotion) {
           return (
             <span key={i} className={cls}>
