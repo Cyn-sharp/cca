@@ -1,13 +1,18 @@
-import uconvertit1 from "../assets/uconvertit-1.png";
-import uconvertit2 from "../assets/uconvertit-2.png";
-import about1 from "../assets/about-1.jpg";
-import about2 from "../assets/about-2.jpg";
-import about3 from "../assets/about-3.jpg";
-import meNormal from "../assets/me-normal.png";
-import meCool from "../assets/me-cool.png";
-import garbo1 from "../assets/garbo-1.png";
-import garbo2 from "../assets/garbo-2.png";
-import garbo3 from "../assets/garbo-3.png";
+// Images in assets/optimized are resized WebP copies of the originals in
+// assets/ (much smaller downloads, same look).
+import uconvertit1 from "../assets/optimized/uconvertit-1.webp";
+import uconvertit2 from "../assets/optimized/uconvertit-2.webp";
+import about1 from "../assets/optimized/about-1.webp";
+import about2 from "../assets/optimized/about-2.webp";
+import about3 from "../assets/optimized/about-3.webp";
+import about1Full from "../assets/optimized/about-1-full.webp";
+import about2Full from "../assets/optimized/about-2-full.webp";
+import about3Full from "../assets/optimized/about-3-full.webp";
+import meNormal from "../assets/optimized/me-normal.webp";
+import meCool from "../assets/optimized/me-cool.webp";
+import garbo1 from "../assets/optimized/garbo-1.webp";
+import garbo2 from "../assets/optimized/garbo-2.webp";
+import garbo3 from "../assets/optimized/garbo-3.webp";
 
 export const portfolioData = {
   name: "Cyndrick Abejo",
@@ -53,10 +58,13 @@ export const portfolioData = {
     { name: "Figma",      color: "#F24E1E" },
   ],
 
+  // src  = thumbnail shown in the gallery
+  // full = larger version shown in the lightbox
+  // width / height = the photo's shape (only the ratio matters), used to lay out the gallery
   aboutImages: [
-    { src: about1, caption: "GARBO presentation succeed!" },
-    { src: about2, caption: "UConvertIT" },
-    { src: about3, caption: "UConvertIT team picture" },
+    { src: about1, full: about1Full, width: 3, height: 4, caption: "GARBO presentation succeed!" },
+    { src: about2, full: about2Full, width: 3, height: 4, caption: "UConvertIT" },
+    { src: about3, full: about3Full, width: 4, height: 3, caption: "UConvertIT team picture" },
   ],
 
    photos: {
