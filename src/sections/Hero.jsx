@@ -8,7 +8,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { portfolioData } from "../data/portfolioData";
-import { FiGithub, FiMail, FiArrowDown } from "react-icons/fi";
+import { FiGithub, FiMail, FiArrowDown, FiLinkedin, FiFileText } from "react-icons/fi";
 import { SiReact, SiJavascript, SiPython, SiFigma } from "react-icons/si";
 import Typewriter from "../components/Typewriter";
 import Magnetic from "../components/Magnetic";
@@ -49,13 +49,19 @@ function HeadlineLine({ children, delay }) {
 }
 
 export default function Hero({ onCoolHover }) {
-  const { name, bio, github, email, photos } = portfolioData;
+  const { name, bio, github, linkedin, resume, email, photos } = portfolioData;
   const [hovered, setHovered] = useState(false);
   const audioRef = useRef(null);
   const sectionRef = useRef(null);
   const lastPointerType = useRef("mouse");
   const finePointer = useFinePointer();
   const reduceMotion = useReducedMotion();
+
+  const resumeUrl = resume
+    ? resume.startsWith("/")
+      ? `${import.meta.env.BASE_URL}${resume.slice(1)}`
+      : resume
+    : null;
 
   // ── Scroll-linked: the hero "lets go" as you scroll away from it ──
   const { scrollYProgress } = useScroll({
@@ -264,18 +270,20 @@ export default function Hero({ onCoolHover }) {
             className="order-1 text-center lg:order-2 lg:text-left"
           >
 
-            {/* Badge */}
+            {/* Availability Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6, ease: EASE_OUT }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/40 bg-primary/10 text-primary text-sm font-medium mb-7"
+              className="mb-7 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2 text-xs sm:text-sm font-medium text-primary shadow-sm lg:justify-start"
             >
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75 motion-reduce:animate-none" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
               </span>
-              Open to opportunities
+              <span>Available for Internships & Junior Roles</span>
+              <span className="hidden text-primary/40 sm:inline">·</span>
+              <span className="hidden font-mono text-xs text-textWhite/70 sm:inline">Cebu, PH / Remote</span>
             </motion.div>
 
             {/* Name */}
@@ -320,27 +328,55 @@ export default function Hero({ onCoolHover }) {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.85, duration: 0.7, ease: EASE_OUT }}
-              className="mb-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
+              className="mb-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4 lg:justify-start"
             >
               <Magnetic>
                 <a
                   href="#projects"
-                  className="group flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-bold text-background transition-colors duration-200 hover:bg-cyan-300 glow-box"
+                  className="group flex items-center gap-2 rounded-full bg-primary px-6 sm:px-7 py-3.5 text-sm font-bold text-background transition-colors duration-200 hover:bg-cyan-300 glow-box"
                 >
                   View My Work
                   <FiArrowDown className="transition-transform duration-300 group-hover:translate-y-0.5" />
                 </a>
               </Magnetic>
-              <Magnetic>
-                <a
-                  href={github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2 rounded-full border border-textWhite/20 bg-textWhite/[0.03] px-7 py-3.5 text-sm font-bold text-textWhite transition-colors duration-200 hover:border-primary hover:text-primary"
-                >
-                  <FiGithub /> GitHub
-                </a>
-              </Magnetic>
+              {resume && (
+                <Magnetic>
+                  <a
+                    href={resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 rounded-full border border-accent/60 bg-accent/10 px-6 sm:px-7 py-3.5 text-sm font-bold text-accent transition-all duration-200 hover:bg-accent hover:text-background"
+                  >
+                    <FiFileText size={16} /> Resume
+                  </a>
+                </Magnetic>
+              )}
+              {linkedin && (
+                <Magnetic>
+                  <a
+                    href={linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="LinkedIn profile"
+                    className="flex items-center gap-2 rounded-full border border-textWhite/20 bg-textWhite/[0.03] px-5 sm:px-6 py-3.5 text-sm font-bold text-textWhite transition-colors duration-200 hover:border-[#0A66C2] hover:text-[#0A66C2]"
+                  >
+                    <FiLinkedin size={16} /> LinkedIn
+                  </a>
+                </Magnetic>
+              )}
+              {github && (
+                <Magnetic>
+                  <a
+                    href={github}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="GitHub profile"
+                    className="flex items-center gap-2 rounded-full border border-textWhite/20 bg-textWhite/[0.03] px-5 sm:px-6 py-3.5 text-sm font-bold text-textWhite transition-colors duration-200 hover:border-primary hover:text-primary"
+                  >
+                    <FiGithub size={16} /> GitHub
+                  </a>
+                </Magnetic>
+              )}
             </motion.div>
 
             {/* Email */}

@@ -20,6 +20,8 @@ export const portfolioData = {
   status: "Student",
   bio: "Hey, I'm Cyndrick — a student who spends more time coding than sleeping. I build real projects to learn real skills. Full Stack is my playground.",
   github: "https://github.com/Cyn-sharp",
+  linkedin: "https://www.linkedin.com/in/cyndrick-abejo-8a922b438/",
+  resume: "/Cyndrick-Abejo-Resume.pdf",
   email: "cyndrickabejo@gmail.com",
   facebook: "#",
 
@@ -83,7 +85,7 @@ export const portfolioData = {
     description:
       "An AI-powered academic productivity tool built for students. Features a Paraphraser, PDF Converter, Humanizer, Quiz Maker, and OCR — all in one platform.",
     tech: ["React", "Supabase", "Python"],
-    github: "https://github.com/Cyn-sharp",
+    github: "https://github.com/Cyn-sharp/u-convertit-frontend",
     live: "https://u-convertit-frontend.vercel.app/",
     figma: null,         // 👈 no figma for this one
     images: [uconvertit1, uconvertit2],

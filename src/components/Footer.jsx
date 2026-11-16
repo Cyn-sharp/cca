@@ -1,12 +1,18 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { portfolioData } from "../data/portfolioData";
-import { FiGithub, FiMail } from "react-icons/fi";
+import { FiGithub, FiMail, FiLinkedin, FiFileText } from "react-icons/fi";
 
 export default function Footer() {
-  const { name, github, email } = portfolioData;
+  const { name, github, linkedin, resume, email } = portfolioData;
   const year = new Date().getFullYear();
   const ref = useRef(null);
+
+  const resumeUrl = resume
+    ? resume.startsWith("/")
+      ? `${import.meta.env.BASE_URL}${resume.slice(1)}`
+      : resume
+    : null;
 
   // The big wordmark rises into view as you reach the very bottom.
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
@@ -21,11 +27,36 @@ export default function Footer() {
         </p>
 
         <div className="flex items-center gap-2 text-textWhite/50">
+          {resume && (
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Resume (PDF)"
+              title="Resume (PDF)"
+              className="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-textWhite/5 hover:text-accent"
+            >
+              <FiFileText size={18} />
+            </a>
+          )}
+          {linkedin && (
+            <a
+              href={linkedin}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn profile"
+              title="LinkedIn profile"
+              className="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-textWhite/5 hover:text-[#0A66C2]"
+            >
+              <FiLinkedin size={18} />
+            </a>
+          )}
           <a
             href={github}
             target="_blank"
             rel="noreferrer"
-            aria-label="GitHub"
+            aria-label="GitHub profile"
+            title="GitHub profile"
             className="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-textWhite/5 hover:text-primary"
           >
             <FiGithub size={18} />
@@ -33,6 +64,7 @@ export default function Footer() {
           <a
             href={`mailto:${email}`}
             aria-label="Email"
+            title="Email"
             className="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-textWhite/5 hover:text-primary"
           >
             <FiMail size={18} />
