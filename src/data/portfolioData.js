@@ -44,6 +44,9 @@ export const portfolioData = {
     "PHP",
     "XAMPP",
     "Android Studio",
+    "OpenCV",
+    "MediaPipe",
+    "NumPy",
   ],
 
 
@@ -99,7 +102,21 @@ export const portfolioData = {
     images: [garbo1, garbo2, garbo3],
     isFigmaProject: true,
     featured: false,
-},
+  },
+  {
+    id: 3,
+    title: "CyberFrame AR",
+    tagline: "Real-Time Gesture-Controlled Holographic Frame",
+    description:
+      "A high-performance, real-time Computer Vision AR app that builds a dynamic, perspective-aware hologram frame between your hands at 60+ FPS. Tracks both hands to apply live stylized ROI filters — Cyber Hologram, Thermal Vision, Matrix, Pixelate, and Negative Glitch — switched seamlessly with a pinch gesture.",
+    tech: ["Python", "OpenCV", "MediaPipe", "NumPy", "Computer Vision"],
+    github: "https://github.com/Cyn-sharp/handtracking-python",
+    live: null,
+    figma: null,
+    video: "/cyberframe-demo.mp4", // 👈 drop your video in public/cyberframe-demo.mp4 (or swap for a YouTube/Drive link!)
+    images: [],
+    featured: true,
+  },
 ],
 };
 
