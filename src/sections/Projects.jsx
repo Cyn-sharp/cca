@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { portfolioData } from "../data/portfolioData";
-import { FiGithub, FiExternalLink, FiFigma } from "react-icons/fi";
+import { FiGithub, FiExternalLink, FiFigma, FiPlayCircle } from "react-icons/fi";
 import ImageCarousel from "../components/ImageCarousel";
 import SectionHeading from "../components/SectionHeading";
 import Spotlight from "../components/Spotlight";
@@ -11,7 +11,7 @@ import { EASE_OUT } from "../lib/motion";
 // Same condition as the `stack:` screen in tailwind.config.js
 const STACK_QUERY = "(min-width: 1024px) and (min-height: 780px)";
 
-// What to show in the little "window" bar above the screenshots
+// What to show in the little "window" bar above the screenshots / video
 const windowTitle = (project) => {
   if (project.live) {
     try {
@@ -20,7 +20,15 @@ const windowTitle = (project) => {
       return project.title;
     }
   }
-  return project.isFigmaProject ? `Figma — ${project.title}` : project.title;
+  if (project.isFigmaProject) return `Figma — ${project.title}`;
+  if (project.github) {
+    try {
+      return new URL(project.github).pathname.replace(/^\//, "");
+    } catch {
+      return project.title;
+    }
+  }
+  return project.title;
 };
 
 function ProjectCard({ project, index, total, progress, stacked }) {
@@ -62,6 +70,11 @@ function ProjectCard({ project, index, total, progress, stacked }) {
                   {project.isFigmaProject && (
                     <span className="text-xs font-mono text-pink-400 border border-pink-400/40 px-3 py-1 rounded-full bg-pink-500/10 flex items-center gap-1">
                       <FiFigma size={12} /> Design
+                    </span>
+                  )}
+                  {project.video && (
+                    <span className="text-xs font-mono text-primary border border-primary/40 px-3 py-1 rounded-full bg-primary/10 flex items-center gap-1">
+                      <FiPlayCircle size={12} /> Video Demo
                     </span>
                   )}
                 </div>
@@ -132,8 +145,8 @@ function ProjectCard({ project, index, total, progress, stacked }) {
                 </div>
               </div>
 
-              {/* Right — Screenshots in a window frame */}
-              {project.images?.length > 0 && (
+              {/* Right — Screenshots / Demo video in a window frame */}
+              {(project.video || project.images?.length > 0) && (
                 <div className="overflow-hidden rounded-xl border border-textWhite/10 bg-background shadow-2xl shadow-black/60">
                   <div className="flex items-center gap-3 border-b border-textWhite/10 px-4 py-2.5">
                     <span aria-hidden="true" className="flex gap-1.5">
@@ -147,9 +160,11 @@ function ProjectCard({ project, index, total, progress, stacked }) {
                     <span aria-hidden="true" className="w-[42px]" />
                   </div>
                   <ImageCarousel
+                    video={project.video}
+                    poster={project.poster}
                     images={project.images}
                     alt={project.title}
-                    aspect="aspect-[2/1]"
+                    aspect={project.video ? "aspect-video" : "aspect-[2/1]"}
                   />
                 </div>
               )}
