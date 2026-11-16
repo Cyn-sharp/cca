@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { portfolioData } from "../data/portfolioData";
-import { FiGithub, FiExternalLink, FiFigma, FiPlayCircle } from "react-icons/fi";
+import { FiGithub, FiExternalLink, FiFigma, FiPlayCircle, FiArrowUpRight, FiCompass, FiBox } from "react-icons/fi";
 import ImageCarousel from "../components/ImageCarousel";
 import SectionHeading from "../components/SectionHeading";
 import Spotlight from "../components/Spotlight";
@@ -183,8 +183,99 @@ function ProjectCard({ project, index, total, progress, stacked }) {
   );
 }
 
+function ActiveBuildCard({ build, index }) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6, delay: index * 0.12, ease: EASE_OUT }}
+      className="h-full"
+    >
+      <Spotlight className="card group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl p-7 border border-textWhite/10 bg-surface/70 hover:border-amber-400/40 transition-colors duration-300 md:p-8">
+        <div>
+          {/* Top row: Status Badge & Icon */}
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1 font-mono text-[11px] font-semibold text-amber-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+                {build.badge}
+              </span>
+              <span className="rounded-full border border-textWhite/10 bg-textWhite/[0.04] px-2.5 py-0.5 font-mono text-[11px] text-textWhite/50">
+                {build.phase}
+              </span>
+            </div>
+
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl border border-textWhite/10 bg-background/80 text-primary shadow-sm transition-transform duration-300 group-hover:scale-105 group-hover:border-primary/40">
+              {build.id === "questgo" ? <FiCompass size={18} /> : <FiBox size={18} />}
+            </div>
+          </div>
+
+          {/* Title & Tagline */}
+          <p className="mt-5 font-mono text-xs text-accent">
+            {build.tagline}
+          </p>
+
+          <h4 className="mt-1 font-display text-2xl font-bold tracking-tight text-textWhite transition-colors duration-200 group-hover:text-primary sm:text-3xl">
+            {build.title}
+          </h4>
+
+          <p className="mt-3 text-sm leading-relaxed text-textWhite/65">
+            {build.description}
+          </p>
+
+          {/* Highlights box */}
+          <div className="mt-5 rounded-2xl border border-textWhite/5 bg-background/50 p-4">
+            <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-textWhite/40">
+              Engineering Focus
+            </p>
+            <ul className="space-y-1.5 font-mono text-xs text-textWhite/80">
+              {build.highlights.map((h, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          {/* Tech pills */}
+          <ul className="mt-6 flex flex-wrap gap-1.5">
+            {build.tech.map((t) => (
+              <li
+                key={t}
+                className="rounded-full border border-textWhite/10 bg-textWhite/[0.03] px-2.5 py-1 font-mono text-[11px] text-textWhite/70"
+              >
+                {t}
+              </li>
+            ))}
+          </ul>
+
+          {/* Bottom Link */}
+          <div className="mt-6 flex items-center justify-between border-t border-textWhite/10 pt-4">
+            <a
+              href={build.github}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 font-mono text-xs font-bold text-primary transition-all duration-200 hover:bg-primary hover:text-background"
+            >
+              <FiGithub size={14} /> View Architecture & Code
+              <FiArrowUpRight size={14} />
+            </a>
+            <span className="hidden sm:inline font-mono text-[11px] text-textWhite/40">
+              Active Commits ⚡
+            </span>
+          </div>
+        </div>
+      </Spotlight>
+    </motion.article>
+  );
+}
+
 export default function Projects() {
-  const { projects } = portfolioData;
+  const { projects, activeBuilds } = portfolioData;
   const listRef = useRef(null);
   const reduceMotion = useReducedMotion();
   const tallDesktop = useMediaQuery(STACK_QUERY);
@@ -215,6 +306,35 @@ export default function Projects() {
             />
           ))}
         </div>
+
+        {/* In the Lab / Active Builds */}
+        {activeBuilds && activeBuilds.length > 0 && (
+          <div className="mt-28 md:mt-36">
+            <div className="mb-10 flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
+              <div>
+                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 font-mono text-xs font-semibold text-amber-300">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75 motion-reduce:animate-none" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
+                  </span>
+                  <span>In the Lab · Active Builds</span>
+                </div>
+                <h3 className="font-display text-2xl font-extrabold tracking-tight text-textWhite sm:text-3xl">
+                  Work in Progress <span className="text-accent">.</span>
+                </h3>
+              </div>
+              <p className="max-w-md font-mono text-xs text-textWhite/50 sm:text-right">
+                Currently architecting & building — exploring campus marketplaces and real-world small business tooling.
+              </p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              {activeBuilds.map((build, i) => (
+                <ActiveBuildCard key={build.id} build={build} index={i} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
