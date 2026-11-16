@@ -49,6 +49,10 @@ export const portfolioData = {
     "OpenCV",
     "MediaPipe",
     "NumPy",
+    "TypeScript",
+    "Next.js",
+    "Firebase",
+    "PWA",
   ],
 
 
@@ -120,5 +124,41 @@ export const portfolioData = {
     featured: true,
   },
 ],
+
+  // Projects in active development ("In the Lab")
+  activeBuilds: [
+    {
+      id: "questgo",
+      title: "QuestGo",
+      tagline: "Peer-to-Peer Student Task & Bounty Platform",
+      badge: "In Active Development",
+      phase: "Architecture & Rules",
+      description:
+        "A decentralized campus task marketplace for CIT-U students. Connects peers who need assistance on errands or academic tasks with students eager to complete them for rewards. Architected with Next.js App Router, protected routes, and Firestore security rules.",
+      tech: ["Next.js", "TypeScript", "Tailwind CSS", "Firebase", "Firestore"],
+      github: "https://github.com/Cyn-sharp/questgo",
+      highlights: [
+        "Peer-to-peer campus task & reward matching",
+        "Role-based security & emulator test suite",
+        "Engineered for the CIT-U student community",
+      ],
+    },
+    {
+      id: "sunshines-fresh-eggs",
+      title: "Sunshine's Fresh Eggs",
+      tagline: "Mobile-First Inventory Management PWA",
+      badge: "Phase 1 Complete · In Progress",
+      phase: "Phase 1: Auth & Role Routing Done",
+      description:
+        "A real-world Progressive Web App engineered for a local egg retail & wholesale business in the Philippines. Synchronizes real-time inventory across bodega (warehouse) and tindahan (storefront) operations with offline capability and role-based permissions.",
+      tech: ["React", "Vite", "Tailwind CSS", "Firebase Auth", "Firestore", "PWA"],
+      github: "https://github.com/Cyn-sharp/sunshines-fresh-eggs",
+      highlights: [
+        "Bodega & Tindahan multi-location tracking",
+        "Role-based access control (Admin & Tindero)",
+        "Mobile-first, offline-ready PWA architecture",
+      ],
+    },
+  ],
 };
 
