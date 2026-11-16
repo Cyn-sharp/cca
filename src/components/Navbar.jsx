@@ -6,7 +6,7 @@ import {
   useScroll,
   useSpring,
 } from "framer-motion";
-import { FiGithub } from "react-icons/fi";
+import { FiGithub, FiLinkedin, FiFileText } from "react-icons/fi";
 import { portfolioData } from "../data/portfolioData";
 import { useActiveSection } from "../hooks/useActiveSection";
 import { EASE_OUT, SPRING_SCROLL } from "../lib/motion";
@@ -22,10 +22,16 @@ const navLinks = [
 const sectionIds = navLinks.map((link) => link.id);
 
 export default function Navbar() {
-  const { github } = portfolioData;
+  const { github, linkedin, resume } = portfolioData;
   const { scrollY, scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, SPRING_SCROLL);
   const active = useActiveSection(sectionIds);
+
+  const resumeUrl = resume
+    ? resume.startsWith("/")
+      ? `${import.meta.env.BASE_URL}${resume.slice(1)}`
+      : resume
+    : null;
 
   const [scrolled, setScrolled] = useState(() => window.scrollY > 40);
   const [hidden, setHidden]     = useState(false);
@@ -110,15 +116,41 @@ export default function Navbar() {
             })}
           </ul>
 
-          {/* CTA Button */}
-          <a
-            href={github}
-            target="_blank"
-            rel="noreferrer"
-            className="hidden items-center gap-2 rounded-full border border-primary/60 px-4 py-2 text-sm font-semibold text-primary transition-all duration-200 hover:bg-primary hover:text-background md:flex"
-          >
-            <FiGithub size={15} /> GitHub
-          </a>
+          {/* Desktop Right CTAs */}
+          <div className="hidden items-center gap-2 md:flex">
+            {resume && (
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 rounded-full border border-accent/60 bg-accent/10 px-3.5 py-1.5 text-xs font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-background"
+              >
+                <FiFileText size={13} /> Resume
+              </a>
+            )}
+            {linkedin && (
+              <a
+                href={linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn profile"
+                title="LinkedIn"
+                className="grid h-8 w-8 place-items-center rounded-full border border-textWhite/15 text-textWhite/70 transition-colors hover:border-[#0A66C2] hover:text-[#0A66C2]"
+              >
+                <FiLinkedin size={14} />
+              </a>
+            )}
+            <a
+              href={github}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub profile"
+              title="GitHub"
+              className="flex items-center gap-1.5 rounded-full border border-primary/60 px-3.5 py-1.5 text-xs font-semibold text-primary transition-all duration-200 hover:bg-primary hover:text-background"
+            >
+              <FiGithub size={13} /> GitHub
+            </a>
+          </div>
 
           {/* Mobile Hamburger */}
           <button
@@ -168,11 +200,33 @@ export default function Navbar() {
                   </motion.a>
                 );
               })}
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                {resume && (
+                  <a
+                    href={resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 rounded-2xl border border-accent/50 bg-accent/10 px-4 py-3 text-sm font-semibold text-accent"
+                  >
+                    <FiFileText size={16} /> Resume
+                  </a>
+                )}
+                {linkedin && (
+                  <a
+                    href={linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-center gap-2 rounded-2xl border border-textWhite/15 bg-textWhite/[0.03] px-4 py-3 text-sm font-semibold text-textWhite hover:text-[#0A66C2]"
+                  >
+                    <FiLinkedin size={16} /> LinkedIn
+                  </a>
+                )}
+              </div>
               <a
                 href={github}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-1 flex items-center justify-center gap-2 rounded-2xl border border-primary/50 px-4 py-3 font-semibold text-primary"
+                className="mt-1 flex items-center justify-center gap-2 rounded-2xl border border-primary/50 px-4 py-3 text-sm font-semibold text-primary"
               >
                 <FiGithub size={16} /> GitHub
               </a>

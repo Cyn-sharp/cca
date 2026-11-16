@@ -8,7 +8,7 @@ import Reveal from "../components/Reveal";
 import Spotlight from "../components/Spotlight";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { EASE_OUT } from "../lib/motion";
-import { FiMaximize2 } from "react-icons/fi";
+import { FiMaximize2, FiFileText } from "react-icons/fi";
 
 const facts = [
   { label: "Role",     value: "Full Stack Developer" },
@@ -76,11 +76,17 @@ function GalleryPhoto({ image, index, progress, drift, onOpen }) {
 }
 
 export default function About() {
-  const { bio, aboutImages } = portfolioData;
+  const { bio, aboutImages, resume } = portfolioData;
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const galleryRef = useRef(null);
   const reduceMotion = useReducedMotion();
   const sideBySide = useMediaQuery("(min-width: 768px)");
+
+  const resumeUrl = resume
+    ? resume.startsWith("/")
+      ? `${import.meta.env.BASE_URL}${resume.slice(1)}`
+      : resume
+    : null;
 
   const { scrollYProgress } = useScroll({
     target: galleryRef,
@@ -108,11 +114,23 @@ export default function About() {
         <div className="mt-16 grid items-center gap-10 md:mt-24 md:grid-cols-2 md:gap-14">
           <Reveal>
             <p className="text-base leading-relaxed text-textWhite/60 md:text-lg">
-              I'm currently a student exploring the world of full stack development.
+              I'm currently a 3rd-year Computer Engineering student exploring the world of full stack development.
               I enjoy working on both the frontend and backend — from designing UI
-              in Figma to building APIs and connecting databases. Every project I
+              in Figma to building APIs, computer vision systems, and connecting databases. Every project I
               build teaches me something new.
             </p>
+            {resume && (
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <a
+                  href={resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-accent/60 bg-accent/10 px-5 py-2.5 text-xs sm:text-sm font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-background"
+                >
+                  <FiFileText size={15} /> View Full Resume (PDF)
+                </a>
+              </div>
+            )}
           </Reveal>
 
           <div className="grid grid-cols-2 gap-3 sm:gap-4">

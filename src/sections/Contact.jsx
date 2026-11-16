@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { portfolioData } from "../data/portfolioData";
-import { FiGithub, FiMail, FiCopy, FiCheck } from "react-icons/fi";
+import { FiGithub, FiMail, FiCopy, FiCheck, FiLinkedin, FiFileText } from "react-icons/fi";
 import SectionHeading from "../components/SectionHeading";
 import Magnetic from "../components/Magnetic";
 import Reveal from "../components/Reveal";
@@ -10,12 +10,18 @@ import { SPRING_SCROLL } from "../lib/motion";
 import { copyText } from "../lib/clipboard";
 
 export default function Contact() {
-  const { github, email } = portfolioData;
+  const { github, linkedin, resume, email } = portfolioData;
   const ref = useRef(null);
   const reduceMotion = useReducedMotion();
   const finePointer = useFinePointer();
   const [copyState, setCopyState] = useState("idle"); // "idle" | "copied" | "failed"
   const copied = copyState === "copied";
+
+  const resumeUrl = resume
+    ? resume.startsWith("/")
+      ? `${import.meta.env.BASE_URL}${resume.slice(1)}`
+      : resume
+    : null;
 
   // The glow behind the section swells as you arrive
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
@@ -75,21 +81,45 @@ export default function Contact() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.2} className="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <Reveal delay={0.2} className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <Magnetic>
             <a
               href={`mailto:${email}`}
-              className="flex items-center gap-2 px-8 py-4 rounded-full bg-primary text-background font-bold hover:bg-cyan-300 transition-colors duration-200 glow-box"
+              className="flex items-center gap-2 px-7 sm:px-8 py-4 rounded-full bg-primary text-background font-bold hover:bg-cyan-300 transition-colors duration-200 glow-box"
             >
               <FiMail /> Send Email
             </a>
           </Magnetic>
+          {resume && (
+            <Magnetic>
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-7 sm:px-8 py-4 rounded-full border border-accent/60 bg-accent/10 text-accent font-bold hover:bg-accent hover:text-background transition-colors duration-200"
+              >
+                <FiFileText /> View Resume
+              </a>
+            </Magnetic>
+          )}
+          {linkedin && (
+            <Magnetic>
+              <a
+                href={linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 px-6 sm:px-8 py-4 rounded-full border border-textWhite/20 bg-textWhite/[0.03] text-textWhite font-bold hover:border-[#0A66C2] hover:text-[#0A66C2] transition-colors duration-200"
+              >
+                <FiLinkedin /> LinkedIn
+              </a>
+            </Magnetic>
+          )}
           <Magnetic>
             <a
               href={github}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2 px-8 py-4 rounded-full border border-textWhite/20 bg-textWhite/[0.03] text-textWhite font-bold hover:border-primary hover:text-primary transition-colors duration-200"
+              className="flex items-center gap-2 px-6 sm:px-8 py-4 rounded-full border border-textWhite/20 bg-textWhite/[0.03] text-textWhite font-bold hover:border-primary hover:text-primary transition-colors duration-200"
             >
               <FiGithub /> GitHub
             </a>
