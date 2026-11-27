@@ -1,7 +1,18 @@
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useState, useRef } from "react";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { portfolioData } from "../data/portfolioData";
-import { FiGithub, FiExternalLink, FiFigma, FiPlayCircle, FiArrowUpRight, FiCompass, FiBox } from "react-icons/fi";
+import {
+  FiGithub,
+  FiExternalLink,
+  FiFigma,
+  FiPlayCircle,
+  FiArrowUpRight,
+  FiCompass,
+  FiBox,
+  FiZap,
+  FiChevronDown,
+  FiChevronUp,
+} from "react-icons/fi";
 import ImageCarousel from "../components/ImageCarousel";
 import SectionHeading from "../components/SectionHeading";
 import Spotlight from "../components/Spotlight";
@@ -32,6 +43,8 @@ const windowTitle = (project) => {
 };
 
 function ProjectCard({ project, index, total, progress, stacked }) {
+  const [highlightsOpen, setHighlightsOpen] = useState(false);
+
   // While the next card slides over this one, it steps back: smaller + dimmer.
   const isLast = index === total - 1;
   const start = index / total;
@@ -41,6 +54,7 @@ function ProjectCard({ project, index, total, progress, stacked }) {
 
   return (
     <div
+      id={project.slug || `project-${project.id}`}
       className="relative stack:sticky"
       // each card sticks a little lower than the one before, so the stack stays visible
       style={{ top: `calc(6.5rem + ${index * 1.5}rem)`, zIndex: index + 1 }}
@@ -92,7 +106,7 @@ function ProjectCard({ project, index, total, progress, stacked }) {
                 </p>
 
                 {/* Tech badges */}
-                <ul className="flex flex-wrap gap-2 mb-8">
+                <ul className="flex flex-wrap gap-2 mb-6">
                   {project.tech.map((t) => (
                     <li
                       key={t}
@@ -106,6 +120,65 @@ function ProjectCard({ project, index, total, progress, stacked }) {
                     </li>
                   ))}
                 </ul>
+
+                {/* Engineering Highlights Accordion Toggle */}
+                {project.highlights && project.highlights.length > 0 && (
+                  <div className="mb-7">
+                    <button
+                      type="button"
+                      onClick={() => setHighlightsOpen((prev) => !prev)}
+                      aria-expanded={highlightsOpen}
+                      className="group inline-flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-3.5 py-1.5 font-mono text-xs font-semibold text-primary transition-all duration-200 hover:border-primary/60 hover:bg-primary/10"
+                    >
+                      <FiZap className="text-accent transition-transform duration-200 group-hover:scale-110" />
+                      <span>{highlightsOpen ? "Hide Engineering Highlights" : "Engineering Highlights & Architecture"}</span>
+                      {highlightsOpen ? <FiChevronUp size={14} /> : <FiChevronDown size={14} />}
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {highlightsOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.35, ease: EASE_OUT }}
+                          className="overflow-hidden"
+                        >
+                          <div className="mt-3 rounded-2xl border border-primary/20 bg-background/90 p-4 sm:p-5 shadow-inner backdrop-blur-md">
+                            {project.metrics && (
+                              <div className="mb-3 flex flex-wrap items-center gap-2 border-b border-textWhite/10 pb-2.5">
+                                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-accent">
+                                  Specs / Metrics:
+                                </span>
+                                <span className="font-mono text-xs text-textWhite/80">
+                                  {project.metrics}
+                                </span>
+                              </div>
+                            )}
+
+                            <div className="space-y-3">
+                              {project.highlights.map((item, hIdx) => (
+                                <div key={hIdx} className="text-left">
+                                  <div className="flex items-start gap-2">
+                                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                                    <div>
+                                      <p className="font-mono text-xs font-bold text-textWhite">
+                                        {item.title}
+                                      </p>
+                                      <p className="mt-0.5 text-xs leading-relaxed text-textWhite/65">
+                                        {item.desc}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                )}
 
                 {/* Buttons */}
                 <div className="flex flex-wrap items-center gap-3">

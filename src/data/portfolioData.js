@@ -84,6 +84,7 @@ export const portfolioData = {
   projects: [
   {
     id: 1,
+    slug: "uconvertit",
     title: "UConvertIT",
     tagline: "Your All-in-One Academic Power Tool",
     description:
@@ -94,9 +95,25 @@ export const portfolioData = {
     figma: null,         // 👈 no figma for this one
     images: [uconvertit1, uconvertit2],
     featured: true,
+    metrics: "Production Vercel App · Supabase Auth & DB · Multi-Tool Suite",
+    highlights: [
+      {
+        title: "Multi-Tool Academic Processing Pipeline",
+        desc: "Consolidated OCR document extraction, NLP paraphrasing, format conversion, and automated quiz generation into a single streamlined client dashboard.",
+      },
+      {
+        title: "Full-Stack Authentication & State Architecture",
+        desc: "Integrated Supabase for session management, cloud persistence, and protected user document history with low-latency client updates.",
+      },
+      {
+        title: "Python Microservice Backend Integration",
+        desc: "Separated heavy text parsing, OCR processing, and transformation routines into a dedicated Python microservice to keep the React client lightweight.",
+      },
+    ],
   },
   {
     id: 2,
+    slug: "garbo",
     title: "GARBO",
     tagline: "Smart Waste Collection App — UI/UX Design",
     description:
@@ -108,9 +125,25 @@ export const portfolioData = {
     images: [garbo1, garbo2, garbo3],
     isFigmaProject: true,
     featured: false,
+    metrics: "Dual-Persona Workflows · Figma Component System · Civic Impact",
+    highlights: [
+      {
+        title: "Dual-Persona Operational Architecture",
+        desc: "Architected synchronous operational flows for Residents (schedule tracking, live truck geolocation, issue reporting) and Municipal Collectors (route navigation and bin status logging).",
+      },
+      {
+        title: "Gamified Civic Incentive Model",
+        desc: "Designed an engaging points and rewards incentive loop to promote proper domestic waste segregation and reduce missed collection days.",
+      },
+      {
+        title: "Design System & High-Fidelity Interaction Prototyping",
+        desc: "Constructed comprehensive Figma component libraries, responsive viewports, and micro-interactions optimized for high readability on mobile devices.",
+      },
+    ],
   },
   {
     id: 3,
+    slug: "cyberframe-ar",
     title: "CyberFrame AR",
     tagline: "Real-Time Gesture-Controlled Holographic Frame",
     description:
@@ -122,6 +155,21 @@ export const portfolioData = {
     video: "/cyberframe-demo.mp4", // 👈 drop your video in public/cyberframe-demo.mp4 (or swap for a YouTube/Drive link!)
     images: [],
     featured: true,
+    metrics: "60+ FPS Real-Time CV · 5 Live Shader Filters · Zero GPU Dependency",
+    highlights: [
+      {
+        title: "60+ FPS Real-Time CV Optimization",
+        desc: "Employs dual MediaPipe hand tracking with dynamic Region-of-Interest (ROI) bounding-box extraction, avoiding expensive full-frame image transformations to maintain smooth 60+ FPS throughput.",
+      },
+      {
+        title: "Debounced Gesture State Machine",
+        desc: "Calculates Euclidean landmark distance between index fingertip and thumb tip with dynamic hysteresis thresholding, preventing accidental or rapid filter flicker during active hand movement.",
+      },
+      {
+        title: "Perspective-Aware Vector Coordinates",
+        desc: "Leverages NumPy vector math to calculate the dynamic quadrilateral ROI between both hands, dynamically scaling corner HUD brackets, scanlines, and stylized shader overlays.",
+      },
+    ],
   },
 ],
 
